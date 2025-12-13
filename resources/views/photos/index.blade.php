@@ -14,6 +14,12 @@
             + Upload Foto Baru
         </a>
     </div>
+    <form action="{{ route('photos.index') }}" method="GET" class="d-flex gap-2">
+        <input type="text" name="search" class="form-control" placeholder="Cari foto..."
+            value="{{ request('search') }}">
+        <button type="submit" class="btn btn-outline-primary">Cari</button>
+    </form>
+    <br>
 
     <table class="table table-bordered">
         <thead>
@@ -57,6 +63,10 @@
             @endforelse
         </tbody>
     </table>
+
+    <div class="mt-3">
+        {{ $photos->withQueryString()->links() }}
+    </div>
 
 </body>
 

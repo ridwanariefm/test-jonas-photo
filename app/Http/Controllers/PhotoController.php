@@ -11,9 +11,18 @@ class PhotoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $photos = \App\Models\Photo::all(); // Ambil semua data
+        // mulai query
+        $query = Photo::query();
+
+        // Logika Pencarian: Jika ada input 'search' dari user
+        if ($request->has('search') && $request->search != '') {
+            $query = $query->where('title','LIKE','%'. $request->search .'%');
+        }
+
+        // Ambil data + Pagination (5 data per halaman) + Urutkan terbaru
+        $photos = $query->latest()->paginate(5);
         return view("photos.index", compact("photos"));
     }
 
